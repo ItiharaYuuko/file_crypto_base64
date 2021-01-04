@@ -121,9 +121,9 @@ fn major_progress() {
                             &entry.path().file_name().unwrap().to_str().unwrap(),
                             "decryptod",
                         );
-                        creat_crypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
+                        creat_decrypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
                         println!(
-                            "{} files cryptod, current file is {}",
+                            "{} files decryptod, current file is {}",
                             file_index - 1,
                             &out_name
                         );
