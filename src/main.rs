@@ -69,6 +69,7 @@ fn major_progress() {
     Note: square brackets was files list it doesnt contain thire self.\n";
 
     let mut file_index: u32 = 0;
+    let mut list_file_count: u32 = 1;
     let operation_flg: Vec<String> = env::args().collect();
     if operation_flg.len() > 1 {
         let current_path = Path::new(".");
@@ -78,7 +79,7 @@ fn major_progress() {
                     creat_crypto_file(&file_name);
                     println!(
                         "{} files cryptod, current file is {}",
-                        file_index - 1,
+                        file_index,
                         file_name
                     )
                 }
@@ -90,7 +91,7 @@ fn major_progress() {
                     creat_decrypto_file(&file_name);
                     println!(
                         "{} files cryptod, current file is {}",
-                        file_index - 1,
+                        file_index,
                         file_name
                     )
                 }
@@ -107,11 +108,12 @@ fn major_progress() {
                         creat_crypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
                         println!(
                             "{} files cryptod, current file is {}",
-                            file_index - 1,
+                            &list_file_count,
                             &out_name
                         );
                     }
                 }
+                list_file_count += 1;
             }
         } else if operation_flg[1].as_str() == "-ld" {
             for entry in current_path.read_dir().unwrap() {
@@ -124,11 +126,12 @@ fn major_progress() {
                         creat_decrypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
                         println!(
                             "{} files decryptod, current file is {}",
-                            file_index - 1,
+                            &list_file_count,
                             &out_name
                         );
                     }
                 }
+                list_file_count += 1;
             }
         } else {
             panic!("{}", &pleaseholder_information);
