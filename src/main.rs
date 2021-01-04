@@ -41,24 +41,20 @@ fn genfile_data(f_name: &str) -> Vec<u8> {
 fn creat_crypto_file(f_name: &str) {
     let data_vec = genfile_data(&f_name);
     let crypto_context = chunk_encode(&data_vec);
-    let on_prefix = &f_name.get_split_at(".", 0);
-    let on_extension = &f_name.get_split_at(".", 1);
-    let out_file_name = format!("{}_crypto.{}", on_prefix, on_extension);
+    let out_file_name = file_name_reorganization(f_name, "cryptod");
     fs::write(out_file_name.as_str(), &crypto_context).unwrap();
 }
 
 fn creat_decrypto_file(f_name: &str) {
     let data_vec = genfile_data(f_name);
     let crypto_context = chunk_decode(&data_vec);
-    let on_prefix = &f_name.get_split_at(".", 0);
-    let on_extension = &f_name.get_split_at(".", 1);
-    let out_file_name = format!("{}_decrypto.{}", on_prefix, on_extension);
+    let out_file_name = file_name_reorganization(f_name, "decryptod");
     fs::write(out_file_name.as_str(), &crypto_context).unwrap();
 }
 
-fn file_name_reorganization(entry: std::fs::DirEntry, bet_flg: &str) -> String {
-    let f_name_pre = &entry.path().to_str().unwrap().get_split_at(".", 0);
-    let f_extension = &entry.path().to_str().unwrap().get_split_at(".", 1);
+fn file_name_reorganization(f_name: &str, bet_flg: &str) -> String {
+    let f_name_pre = f_name.get_split_at(".", 0);
+    let f_extension = f_name.get_split_at(".", 1);
     format!("{}_{}.{}", f_name_pre, bet_flg, f_extension)
 }
 
@@ -103,9 +99,12 @@ fn major_progress() {
         } else if operation_flg[1].as_str() == "-lc" {
             for entry in current_path.read_dir().unwrap() {
                 if let Ok(entry) = entry {
-                    if entry.path().to_str().unwrap() != operation_flg[0] {
-                        let out_name = file_name_reorganization(entry, "cryptod");
-                        creat_crypto_file(&out_name);
+                    if entry.path().file_name().unwrap().to_str().unwrap() != operation_flg[0] {
+                        let out_name = file_name_reorganization(
+                            &entry.path().file_name().unwrap().to_str().unwrap(),
+                            "cryptod",
+                        );
+                        creat_crypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
                         println!(
                             "{} files cryptod, current file is {}",
                             file_index - 1,
@@ -117,9 +116,12 @@ fn major_progress() {
         } else if operation_flg[1].as_str() == "-ld" {
             for entry in current_path.read_dir().unwrap() {
                 if let Ok(entry) = entry {
-                    if entry.path().to_str().unwrap() != operation_flg[0] {
-                        let out_name = file_name_reorganization(entry, "decryptod");
-                        creat_crypto_file(&out_name);
+                    if entry.path().file_name().unwrap().to_str().unwrap() != operation_flg[0] {
+                        let out_name = file_name_reorganization(
+                            &entry.path().file_name().unwrap().to_str().unwrap(),
+                            "decryptod",
+                        );
+                        creat_crypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
                         println!(
                             "{} files cryptod, current file is {}",
                             file_index - 1,
