@@ -69,11 +69,24 @@ fn purge_mata_file(purge_flag: bool) {
         if let Ok(entry) = entry {
             let mata_flag: bool;
             if purge_flag {
-                mata_flag  = !entry.path().file_name().unwrap().to_str().unwrap().contains("%^%");
+                mata_flag = !entry
+                    .path()
+                    .file_name()
+                    .unwrap()
+                    .to_str()
+                    .unwrap()
+                    .contains("%^%");
             } else {
-                mata_flag  = entry.path().file_name().unwrap().to_str().unwrap().contains("%^%")
+                mata_flag = entry
+                    .path()
+                    .file_name()
+                    .unwrap()
+                    .to_str()
+                    .unwrap()
+                    .contains("%^%")
             }
-            if mata_flag && entry.path().file_name().unwrap().to_str().unwrap() != exe_name.as_str() {
+            if mata_flag && entry.path().file_name().unwrap().to_str().unwrap() != exe_name.as_str()
+            {
                 fs::remove_file(&entry.path().file_name().unwrap().to_str().unwrap()).unwrap();
                 println!(
                     "[-]{} was removed.",
