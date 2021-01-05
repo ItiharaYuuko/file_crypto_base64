@@ -1,6 +1,6 @@
 [package]
 name = "file_crypto_base64"
-version = "1.5.5"
+version = "1.7.3"
 authors = ["ItiharaYuuko"]
 edition = "2018"
 
