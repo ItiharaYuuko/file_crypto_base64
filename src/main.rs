@@ -57,6 +57,11 @@ fn entry_contians(ent: &fs::DirEntry, context: &str) -> bool {
     flg_pa
 }
 
+fn entry_to_str(ent: &fs::DirEntry) -> String {
+    let ent_str = String::from(ent.path().file_name().unwrap().to_str().unwrap());
+    ent_str
+}
+
 fn chunk_encode<T: Clone + AsRef<[u8]>>(input: T) -> String {
     encode(&input)
 }
@@ -108,10 +113,10 @@ fn purge_mata_file(purge_flag: bool) {
                 mata_flag = entry_contians(&entry, "%^%");
             }
             if mata_flag && !entry_self_check(&entry) {
-                fs::remove_file(&entry.path().file_name().unwrap().to_str().unwrap()).unwrap();
+                fs::remove_file(entry_to_str(&entry)).unwrap();
                 println!(
                     "[-]{} was removed.",
-                    &entry.path().file_name().unwrap().to_str().unwrap()
+                    entry_to_str(&entry)
                 );
             }
         }
@@ -162,10 +167,10 @@ fn major_progress() {
                 if let Ok(entry) = entry {
                     if !entry_self_check(&entry) && !entry_contians(&entry, "%^%") {
                         let out_name = file_name_reorganization(
-                            &entry.path().file_name().unwrap().to_str().unwrap(),
+                            entry_to_str(&entry).as_str(),
                             "Cryptod",
                         );
-                        creat_crypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
+                        creat_crypto_file(entry_to_str(&entry).as_str());
                         println!(
                             "[+]{} files cryptod, current file is {}",
                             &list_file_count, &out_name
@@ -179,10 +184,10 @@ fn major_progress() {
                 if let Ok(entry) = entry {
                     if !entry_self_check(&entry) {
                         let out_name = file_name_reorganization(
-                            &entry.path().file_name().unwrap().to_str().unwrap(),
+                            entry_to_str(&entry).as_str(),
                             "Deryptod",
                         );
-                        creat_decrypto_file(&entry.path().file_name().unwrap().to_str().unwrap());
+                        creat_decrypto_file(entry_to_str(&entry).as_str());
                         println!(
                             "[+]{} files decryptod, current file is {}",
                             &list_file_count, &out_name
