@@ -102,6 +102,18 @@ fn file_name_reorganization(f_name: &str, bet_flg: &str) -> String {
     tmp_str
 }
 
+fn file_name_crypto(f_name: &String) -> String {
+    let cry_name = chunk_encode(f_name);
+    fs::rename(f_name, &cry_name).unwrap();
+    cry_name
+}
+
+fn file_name_decrypto(f_name: &String) -> String {
+    let dec_name = String::from_utf8(chunk_decode(f_name)).unwrap();
+    fs::rename(f_name, &dec_name).unwrap();
+    dec_name
+}
+
 fn purge_mata_file(purge_flag: bool) {
     let ctr_pat = Path::new(".");
     for entry in ctr_pat.read_dir().unwrap() {
@@ -133,36 +145,35 @@ fn major_progress() {
     user$ file_crypto_base64 -ld  #Decrypto current folders all files.\n
     user$ file_crypto_base64 -pm  #Remove all meta files.\n
     user$ file_crypto_base64 -pc  #Remove all cryptod files.\n
+    user$ file_crypto_base64 -cn  #Crypto current folders all files name.\n
+    user$ file_crypto_base64 -dn  #Decrypto current folders all files name.\n
     Note: square brackets was files list it doesnt contain thire self.\n";
 
-    let mut file_index: u32 = 0;
+    let arg_flg_loc: usize = 1;
+    let mut file_index: u32 = 1;
     let mut list_file_count: u32 = 1;
-    let operation_flg: Vec<String> = env::args().collect();
+    let operation_flg = env::args().collect::<Vec<String>>();
     if operation_flg.len() > 1 {
         let current_path = Path::new(".");
-        if operation_flg[1].as_str() == "-c" {
-            for file_name in env::args() {
-                if file_index > 1 {
-                    creat_crypto_file(&file_name);
-                    println!(
-                        "[+]{} files cryptod, current file is {}",
-                        file_index, file_name
-                    );
-                }
+        if operation_flg[arg_flg_loc].as_str() == "-c" {
+            for file_name in &operation_flg[2..] {
+                creat_crypto_file(&file_name);
+                println!(
+                    "[+]{} files cryptod, current file is {}",
+                    file_index, file_name
+                );
+                file_index += 1
+            }
+        } else if operation_flg[arg_flg_loc].as_str() == "-d" {
+            for file_name in &operation_flg[2..] {
+                creat_decrypto_file(&file_name);
+                println!(
+                    "[+]{} files decryptod, current file is {}",
+                    file_index, file_name
+                );
                 file_index += 1;
             }
-        } else if operation_flg[1].as_str() == "-d" {
-            for file_name in env::args() {
-                if file_index > 1 {
-                    creat_decrypto_file(&file_name);
-                    println!(
-                        "[+]{} files decryptod, current file is {}",
-                        file_index, file_name
-                    );
-                }
-                file_index += 1;
-            }
-        } else if operation_flg[1].as_str() == "-lc" {
+        } else if operation_flg[arg_flg_loc].as_str() == "-lc" {
             for entry in current_path.read_dir().unwrap() {
                 if let Ok(entry) = entry {
                     if !entry_self_check(&entry) && !entry_contians(&entry, "%^%") {
@@ -179,7 +190,7 @@ fn major_progress() {
                 }
                 list_file_count += 1;
             }
-        } else if operation_flg[1].as_str() == "-ld" {
+        } else if operation_flg[arg_flg_loc].as_str() == "-ld" {
             for entry in current_path.read_dir().unwrap() {
                 if let Ok(entry) = entry {
                     if !entry_self_check(&entry) {
@@ -195,6 +206,30 @@ fn major_progress() {
                     }
                 }
                 list_file_count += 1;
+            }
+        } else if operation_flg[arg_flg_loc].as_str() == "-cn" {
+            for entry in current_path.read_dir().unwrap() {
+                if let Ok(entry) = entry {
+                    if !entry_self_check(&entry) {
+                        let cryptoed_name = file_name_crypto(&entry_to_str(&entry));
+                        println!(
+                            "[#]{} crytpod to {}",
+                            &entry_to_str(&entry), &cryptoed_name
+                        );
+                    }
+                }
+            }
+        } else if operation_flg[arg_flg_loc].as_str() == "-dn" {
+            for entry in current_path.read_dir().unwrap() {
+                if let Ok(entry) = entry {
+                    if !entry_self_check(&entry) {
+                        let mata_name = file_name_decrypto(&entry_to_str(&entry));
+                        println!(
+                            "[#]{} decryptod to {}",
+                            &entry_to_str(&entry), &mata_name
+                        );
+                    }
+                }
             }
         } else if operation_flg[1].as_str() == "-pm" {
             purge_mata_file(true);
