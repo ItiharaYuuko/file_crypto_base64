@@ -22,6 +22,41 @@ impl SplitAt for &str {
     }
 }
 
+fn entry_self_check(ent: &fs::DirEntry) -> bool {
+    let flg_pa: bool;
+    let app_self: Vec<String> = env::args().collect();
+    if ent
+        .path()
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .contains(&app_self[0])
+    {
+        flg_pa = true;
+    } else {
+        flg_pa = false;
+    }
+    flg_pa
+}
+
+fn entry_contians(ent: &fs::DirEntry, context: &str) -> bool {
+    let flg_pa: bool;
+    if ent
+        .path()
+        .file_name()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .contains(context)
+    {
+        flg_pa = true;
+    } else {
+        flg_pa = false;
+    }
+    flg_pa
+}
+
 fn chunk_encode<T: Clone + AsRef<[u8]>>(input: T) -> String {
     encode(&input)
 }
@@ -63,30 +98,16 @@ fn file_name_reorganization(f_name: &str, bet_flg: &str) -> String {
 }
 
 fn purge_mata_file(purge_flag: bool) {
-    let exe_name = &env::args().collect::<Vec<String>>()[0];
     let ctr_pat = Path::new(".");
     for entry in ctr_pat.read_dir().unwrap() {
         if let Ok(entry) = entry {
             let mata_flag: bool;
             if purge_flag {
-                mata_flag = !entry
-                    .path()
-                    .file_name()
-                    .unwrap()
-                    .to_str()
-                    .unwrap()
-                    .contains("%^%");
+                mata_flag = !entry_contians(&entry, "%^%");
             } else {
-                mata_flag = entry
-                    .path()
-                    .file_name()
-                    .unwrap()
-                    .to_str()
-                    .unwrap()
-                    .contains("%^%")
+                mata_flag = entry_contians(&entry, "%^%");
             }
-            if mata_flag && entry.path().file_name().unwrap().to_str().unwrap() != exe_name.as_str()
-            {
+            if mata_flag && !entry_self_check(&entry) {
                 fs::remove_file(&entry.path().file_name().unwrap().to_str().unwrap()).unwrap();
                 println!(
                     "[-]{} was removed.",
@@ -105,6 +126,8 @@ fn major_progress() {
     user$ file_crypto_base64 -d [file names separated by blank]  #Decrypto selected files.\n
     user$ file_crypto_base64 -lc  #Crypto current folders all files.\n
     user$ file_crypto_base64 -ld  #Decrypto current folders all files.\n
+    user$ file_crypto_base64 -pm  #Remove all meta files.\n
+    user$ file_crypto_base64 -pc  #Remove all cryptod files.\n
     Note: square brackets was files list it doesnt contain thire self.\n";
 
     let mut file_index: u32 = 0;
@@ -137,15 +160,7 @@ fn major_progress() {
         } else if operation_flg[1].as_str() == "-lc" {
             for entry in current_path.read_dir().unwrap() {
                 if let Ok(entry) = entry {
-                    if entry.path().file_name().unwrap().to_str().unwrap() != operation_flg[0]
-                        && !entry
-                            .path()
-                            .file_name()
-                            .unwrap()
-                            .to_str()
-                            .unwrap()
-                            .contains("%^%")
-                    {
+                    if !entry_self_check(&entry) && !entry_contians(&entry, "%^%") {
                         let out_name = file_name_reorganization(
                             &entry.path().file_name().unwrap().to_str().unwrap(),
                             "Cryptod",
@@ -162,7 +177,7 @@ fn major_progress() {
         } else if operation_flg[1].as_str() == "-ld" {
             for entry in current_path.read_dir().unwrap() {
                 if let Ok(entry) = entry {
-                    if entry.path().file_name().unwrap().to_str().unwrap() != operation_flg[0] {
+                    if !entry_self_check(&entry) {
                         let out_name = file_name_reorganization(
                             &entry.path().file_name().unwrap().to_str().unwrap(),
                             "Deryptod",
