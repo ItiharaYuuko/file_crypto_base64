@@ -18,6 +18,7 @@ When the operation has done. You can change the path to the project.
 ```Shell
 > user$ cargo clean  
 > user$ cargo build --release  
+```
 
 You could able to find out the executable binary file, in the current folder,
 that under the target/release folder, the name same as the project.  
@@ -36,7 +37,7 @@ Now change current path, to your destiation folder.
     user$ file_crypto_base64 -pc  #Remove all cryptod files.
     user$ file_crypto_base64 -cn  #Crypto current folders all files name.
     user$ file_crypto_base64 -dn  #Decrypto current folders all files name.  
-
+```
 Note: square brackets was files list it doesnt contain thire self.  
 
 Enjoy.
