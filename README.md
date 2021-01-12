@@ -18,8 +18,8 @@ When the operation has done. You can change the path to the project.
 ### And executing commands:
 
 ```Shell
-> user$ cargo clean  
-> user$ cargo build --release  
+    user$ cargo clean #Clean objects target files.  
+    user$ cargo build --release #Build binary for release mode.  
 ```
 
 You could able to find out the executable binary file, in the current folder,
