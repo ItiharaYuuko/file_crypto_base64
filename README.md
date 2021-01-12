@@ -26,14 +26,14 @@ Before using the application, you should move the binnary file to your destinati
 Now change current path, to your destiation folder.  
 
 ## Command line usage:
-    user$ file_crypto_base64 -c *[file names separated by blank]  #Crypto selected files.*
-    user$ file_crypto_base64 -d [file names separated by blank]  #Decrypto selected files.
-    user$ file_crypto_base64 -lc  #Crypto current folders all files.
-    user$ file_crypto_base64 -ld  #Decrypto current folders all files.
-    user$ file_crypto_base64 -pm  #Remove all meta files.
-    user$ file_crypto_base64 -pc  #Remove all cryptod files.
-    user$ file_crypto_base64 -cn  #Crypto current folders all files name.
-    user$ file_crypto_base64 -dn  #Decrypto current folders all files name.  
+    user$ file_crypto_base64 -c [file names separated by blank]  $\color{#00FF00}{#Crypto selected files.}$
+    user$ file_crypto_base64 -d [file names separated by blank]  $\color{#00FF00}{#Decrypto selected files.}$
+    user$ file_crypto_base64 -lc  $\color{#00FF00}{#Crypto current folders all files.}$
+    user$ file_crypto_base64 -ld  $\color{#00FF00}{#Decrypto current folders all files.}$
+    user$ file_crypto_base64 -pm  $\color{#00FF00}{#Remove all meta files.}$
+    user$ file_crypto_base64 -pc  $\color{#00FF00}{#Remove all cryptod files.}$
+    user$ file_crypto_base64 -cn  $\color{#00FF00}{#Crypto current folders all files name.}$
+    user$ file_crypto_base64 -dn  $\color{#00FF00}{#Decrypto current folders all files name.}$  
 
 Note: square brackets was files list it doesnt contain thire self.  
 
