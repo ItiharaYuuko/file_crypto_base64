@@ -26,7 +26,7 @@ Before using the application, you should move the binnary file to your destinati
 Now change current path, to your destiation folder.  
 
 ## Command line usage:
-    user$ file_crypto_base64 -c [file names separated by blank]  #Crypto selected files.
+    user$ file_crypto_base64 -c *[file names separated by blank]  #Crypto selected files.*
     user$ file_crypto_base64 -d [file names separated by blank]  #Decrypto selected files.
     user$ file_crypto_base64 -lc  #Crypto current folders all files.
     user$ file_crypto_base64 -ld  #Decrypto current folders all files.
