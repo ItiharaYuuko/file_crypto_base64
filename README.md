@@ -15,7 +15,8 @@ git clone <https://github.com/ItiharaYuuko/file_crypto_base64.git>
 
 When the operation has done. You can change the path to the project.
 ### And executing commands:
-> user$ cargo clean
+```Shell
+> user$ cargo clean  
 > user$ cargo build --release  
 
 You could able to find out the executable binary file, in the current folder,
