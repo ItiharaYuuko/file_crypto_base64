@@ -13,8 +13,10 @@ Next step, you should cloning the code from my github address.
 If you installed the git client, you can type the command in console:
 git clone <https://github.com/ItiharaYuuko/file_crypto_base64.git>  
 
-When the operation has done. You can change the path to the project.
+When the operation has done. You can change the path to the project.  
+
 ### And executing commands:
+
 ```Shell
 > user$ cargo clean  
 > user$ cargo build --release  
@@ -28,6 +30,7 @@ Before using the application, you should move the binnary file to your destinati
 Now change current path, to your destiation folder.  
 
 ## Command line usage:
+
 ```Shell
     user$ file_crypto_base64 -c [file names separated by blank]  #Crypto selected files.
     user$ file_crypto_base64 -d [file names separated by blank]  #Decrypto selected files.
@@ -38,6 +41,6 @@ Now change current path, to your destiation folder.
     user$ file_crypto_base64 -cn  #Crypto current folders all files name.
     user$ file_crypto_base64 -dn  #Decrypto current folders all files name.  
 ```
-Note: square brackets was files list it doesnt contain thire self.  
 
+Note: square brackets was files list it doesnt contain thire self.  
 Enjoy.
