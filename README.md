@@ -5,7 +5,7 @@
 
 This application using for crypto files, use base64 crate to crypto files.
 
-At first you should installing the Rust compiler.
+At first you should to install the Rust compiler.
 If you dont know how to install it, you should searching the rust-lang main
 page at <https://www.rust-lang.org/tools/install>. To learn how install the rust compiler.
 
